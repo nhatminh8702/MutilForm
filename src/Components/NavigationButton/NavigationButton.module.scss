@@ -1,0 +1,49 @@
+.container {
+  gap: 2%;
+  margin-top: 1%;
+  margin-bottom: 2%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  .errorMessage {
+    margin: 0px;
+    color: #ed5d5d;
+    font-size: 14px;
+  }
+  .buttonContainer {
+    .warper {
+      min-height: 100%;
+      position: relative;
+      .button1 {
+        user-select: none;
+        position: absolute;
+        color: #ffffff;
+        background-color: #627d98;
+        padding: 0.7% 2%;
+        border-radius: 3px;
+        &:hover {
+          cursor: pointer;
+          background-color: #6997c5;
+        }
+        &:active {
+          top: 2px;
+        }
+      }
+      .button2 {
+        user-select: none;
+        left: 120px;
+        position: absolute;
+        padding: 0.5% 2%;
+        color: #666666;
+        border: 1px #dcdcdc solid;
+        border-radius: 3px;
+        &:hover {
+          cursor: pointer;
+        }
+        &:active {
+          top: 2px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+.container {
+  counter-reset: stepNum;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  > li {
+    text-align: center;
+    display: table-cell;
+    position: relative;
+    max-width: 126px;
+    &::before {
+      counter-increment: stepNum;
+      content: counter(stepNum);
+      display: block;
+      margin: 0 auto 4px;
+      color: #ffffff;
+      width: 36px;
+      height: 34px;
+      line-height: 32px;
+      text-align: center;
+      background-color: #617d98;
+      border-radius: 100%;
+    }
+    &::after {
+      content: "";
+      height: 2px;
+      width: 100%;
+      background-color: #617d98;
+      position: absolute;
+      top: 16px;
+      right: 50%;
+      z-index: -1;
+    }
+    &:first-child {
+      &:after {
+        display: none;
+      }
+    }
+    &.isActive {
+      ~ li {
+        &:before {
+          background-color: #dbdbdb;
+        }
+        &::after {
+          background-color: #dbdbdb;
+        }
+      }
+    }
+  }
+}
