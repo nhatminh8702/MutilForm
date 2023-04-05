@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
+import Label from "../Label/Label";
 import style from "./TextInput.module.scss";
 const TextInput = (props) => {
-  const { label, required, text, setText, maxlength } = props;
+  const { label, labelDescription, required, value, setValue, maxlength } =
+    props;
   TextInput.propTypes = {};
   const [errorWarning, setErrorWarning] = useState("");
-  const [cloneText, setCloneText] = useState("");
+  const [componentValue, setComponentValue] = useState("");
 
   useEffect(() => {
-    setCloneText(text);
-  }, [text]);
+    setComponentValue(value);
+  }, [value]);
 
   const handleValidate = (text) => {
-    let error = false;
     if (required) {
       if (text === "") {
-        error = true;
         setErrorWarning(label + " must not be empty!");
+      } else {
+        setErrorWarning("");
       }
     }
     if (text.length > maxlength) {
@@ -24,9 +26,7 @@ const TextInput = (props) => {
         "Text length must be less than " + maxlength + " characters"
       );
     }
-    if (!error) {
-      setText(cloneText);
-    }
+    setValue(componentValue);
   };
 
   const handleOnBlur = (event) => {
@@ -34,20 +34,21 @@ const TextInput = (props) => {
   };
 
   const handleOnChange = (event) => {
-    setCloneText(event.target.value);
+    setComponentValue(event.target.value);
   };
 
   return (
     <div className={style.container}>
-      <p className={style.label}>
-        {required && <span className={style.required}>Must</span>}
-        {label}
-      </p>
+      <Label
+        label={label}
+        required={required}
+        labelDescription={labelDescription}
+      />
       <input
         className={style.input}
         type="text"
         onBlur={handleOnBlur}
-        value={cloneText}
+        value={componentValue}
         onChange={handleOnChange}
       />
       <br />

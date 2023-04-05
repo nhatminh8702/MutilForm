@@ -1,0 +1,24 @@
+.container {
+  width: 96%;
+  .warper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: #f8f8f8;
+    padding: 1% 2%;
+    border-radius: 4px;
+    .selector {
+      flex-grow: 1;
+      background-color: #ffffff;
+      &>div{
+        max-width: none !important;
+      }
+    }
+    img{
+        margin-left: 1%;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+  }
+}

@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Label from "../Label/Label";
 import style from "./TextAreaInput.module.scss";
 const TextAreaInput = (props) => {
-  const { label, required, setText, maxlength } = props;
+  const { label, labelDescription, required, value, setValue, maxlength } =
+    props;
   const [textLength, setTextLength] = useState(0);
   const [errorWarning, setErrorWarning] = useState("");
+  const [componentValue, setComponentValue] = useState("");
+  useEffect(() => {
+    setComponentValue(value);
+  }, [value]);
 
   const handleOnChange = (event) => {
+    setComponentValue(event.target.value);
     handleTextLength(event.target.value.length);
   };
 
@@ -22,29 +29,28 @@ const TextAreaInput = (props) => {
   };
 
   const handleValidate = (text) => {
-    let error = false;
     if (required) {
       if (text === "") {
         setErrorWarning("The paragraph must not leave empty");
       }
     }
-    if (!error) {
-      setText(text);
-    }
+    setValue(text);
   };
 
   return (
     <div className={style.container}>
-      <p className={style.label}>
-        {required && <span>Must</span>}
-        {label}
-      </p>
+      <Label
+        label={label}
+        required={required}
+        labelDescription={labelDescription}
+      />
       <textarea
         className={style.input}
         maxLength={maxlength}
         rows={20}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
+        value={componentValue}
       ></textarea>
       <br />
       <span>

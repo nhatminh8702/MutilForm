@@ -1,38 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Label from "../Label/Label";
 import style from "./DatePicker.module.scss";
 const DatePicker = (props) => {
-  const { label, required, setDate } = props;
+  const { label, labelDescription, required, value, setValue } = props;
   const [errorWarning, setErrorWarning] = useState("");
+  const [cloneDate, setCloneDate] = useState("");
+
+  useEffect(() => {
+    setCloneDate(value);
+  }, [value]);
+
   const handleOnBlur = (event) => {
     handleValidate(event.target.value);
   };
 
+  const handleOnChange = (event) => {
+    setCloneDate(event.target.value);
+  };
+
   const handleValidate = (date) => {
-    let error = false;
     if (required) {
       if (date === "") {
-        error = true;
         setErrorWarning(label + " must not leave empty!");
       }
     }
     let dateOfBirth = new Date(date);
     let currentdate = new Date();
     if (dateOfBirth > currentdate) {
-      error = true;
       setErrorWarning("Invalid Date!");
     }
-    if (!error) {
-      setErrorWarning("");
-      setDate(date);
-    }
+    setErrorWarning("");
+    setValue(date);
   };
   return (
     <div className={style.container}>
-      <p className={style.label}>
-        {required && <span className={style.required}>Must</span>}
-        {label}
-      </p>
-      <input type="date" className={style.input} onBlur={handleOnBlur} />
+      <Label
+        label={label}
+        required={required}
+        labelDescription={labelDescription}
+      />
+      <input
+        type="date"
+        className={style.input}
+        onBlur={handleOnBlur}
+        value={cloneDate}
+        onChange={handleOnChange}
+      />
       <br />
       {errorWarning !== "" && (
         <span className={style.warning}>{errorWarning}</span>

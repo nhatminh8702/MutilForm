@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  .warper {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    height: 100%;
+    hr {
+      width: 20px;
+      margin-top: 12px;
+      margin-left: 4px;
+      height: 1px;
+      background-color: #dfdfdf;
+      border: 0;
+    }
+    & > div {
+      width: fit-content;
+    }
+  }
+  .errorMessage{
+    font-size: 12px;
+    color: #ED5D5D;
+  }
+}

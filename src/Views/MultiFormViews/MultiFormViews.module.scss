@@ -1,10 +1,17 @@
-.container{
-    margin: 0 auto;
-    width: 80vw;
-    max-width: 932px;
-    display: flex;
-    flex-direction: column;
-    h3{
-        text-align: left;
-    }
+.container {
+  margin: 0 auto;
+  width: 80vw;
+  max-width: 932px;
+  display: flex;
+  flex-direction: column;
+  h3 {
+    text-align: left;
+  }
+  .errorMessage {
+    margin: 1% 0 0 0;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 400;
+    color: #ed5d5d;
+  }
 }

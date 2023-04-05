@@ -1,0 +1,28 @@
+.container {
+  .inputWarper {
+    width: fit-content;
+    border: 1px #dbdbdb solid;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    padding: 2% 2%;
+    input {
+      text-align: center;
+      border: 0;
+      width: 100%;
+      max-width: 80px;
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  .errorMessage {
+    margin: 0;
+    font-size: 12px;
+    color: #ED5D5D;
+  }
+}

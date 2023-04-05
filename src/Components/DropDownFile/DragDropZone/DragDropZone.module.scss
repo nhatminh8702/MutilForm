@@ -1,0 +1,41 @@
+.formContainer {
+  background: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  border-radius: 7px;
+  width: 100%;
+  max-width: 850px;
+  max-height: 240px;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10% 0;
+    img{
+        width: 4%;
+    }
+    input {
+      display: none;
+    }
+    h3 {
+      margin: 0 auto;
+    }
+    .link {
+      text-decoration: underline;
+      margin: 0 auto;
+      padding: 0;
+      display: inline;
+    }
+    .link:hover {
+      cursor: pointer;
+      color: blueviolet;
+    }
+  }
+}
+.error {
+  border: 1px solid #ed5d5d;
+}
+.errorMessage {
+  color: #ed5d5d;
+  display: inline;
+  align-self: flex-start;
+}

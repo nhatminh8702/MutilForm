@@ -1,0 +1,16 @@
+.icon{
+    position: absolute;
+    right: 5%;
+    bottom: 5px;
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    .arrowIconLeft, .arrowIconRight{
+        height: 32px;
+        &:hover{
+            cursor: pointer;
+        }
+        box-shadow: 5px #666;
+    }
+}

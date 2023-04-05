@@ -9,6 +9,7 @@
     display: table-cell;
     position: relative;
     max-width: 126px;
+    align-items: center;
     &::before {
       counter-increment: stepNum;
       content: counter(stepNum);
@@ -19,14 +20,14 @@
       height: 34px;
       line-height: 32px;
       text-align: center;
-      background-color: #617d98;
+      background-color: #dbdbdb;
       border-radius: 100%;
     }
     &::after {
       content: "";
       height: 2px;
       width: 100%;
-      background-color: #617d98;
+      background-color: #dbdbdb;
       position: absolute;
       top: 16px;
       right: 50%;
@@ -37,14 +38,18 @@
         display: none;
       }
     }
+    &.completed {
+      &::before {
+        background-color: #617d98;
+      }
+      &::after {
+        background-color: #617d98;
+      }
+    }
     &.isActive {
-      ~ li {
-        &:before {
-          background-color: #dbdbdb;
-        }
-        &::after {
-          background-color: #dbdbdb;
-        }
+      &::before {
+        padding: 5% 5%;
+        margin-top: -3%;
       }
     }
   }

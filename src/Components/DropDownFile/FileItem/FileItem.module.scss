@@ -1,0 +1,35 @@
+.boxFile{
+    &:hover{
+        background-color: #DCDCDC;
+    }
+    border: #DCDCDC 1px solid;
+    border-radius: 3px;
+    min-width: 31.5%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1%;
+    .fileIcon{
+        width: 16%;
+        height: auto;
+    }
+    .fileContent{
+        max-width: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        font-size: 85%;
+        .fileTitle{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 1000;
+            text-align: left;
+            max-width: 70%;
+        }
+    }
+    .fileDeleteIcon{
+        margin-right: 3%;
+        cursor: pointer;
+    }
+}
