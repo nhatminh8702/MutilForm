@@ -6,11 +6,12 @@ const ListFiles = (props) => {
   const isLoading = false;
   const { fileList, onDelete } = props;
   const itemPerPage = 3;
-  const amountOfPixelToSlide = itemPerPage * 33.9;
+  const amountOfPixelToSlide = itemPerPage * 33.5;
   const [currentSlidePosition, setCurrentSlidePosition] = useState(0);
 
   const handleClickDelete = (item) => {
     if (!isLoading) {
+      setCurrentSlidePosition(0);
       onDelete(item);
     }
   };
@@ -21,27 +22,24 @@ const ListFiles = (props) => {
         <div className={style.wrapContainer}>
           <div
             className={style.boxContainer}
-            style={{
-              right: currentSlidePosition * amountOfPixelToSlide + "%",
-            }}
+            style={{ right: amountOfPixelToSlide * currentSlidePosition + "%" }}
           >
-            <div className={style.boxContainer}>
-              {fileList.map((item, index) => (
-                // className={
-                //   isLoading
-                //     ? style.boxContainer + " " + style.disabled
-                //     : style.boxContainer
-                // }
-                // key={index}
-                <FileItem
-                  contentType={item.contentType}
-                  name={item.name}
-                  size={item.size}
-                  onClickDelete={() => handleClickDelete(item)}
-                  disabled={isLoading}
-                />
-              ))}
-            </div>
+            {fileList.map((item, index) => (
+              // className={
+              //   isLoading
+              //     ? style.boxContainer + " " + style.disabled
+              //     : style.boxContainer
+              // }
+              // key={index}
+              <FileItem
+                key={index}
+                contentType={item.contentType}
+                name={item.name}
+                size={item.size}
+                onClickDelete={() => handleClickDelete(item)}
+                disabled={isLoading}
+              />
+            ))}
           </div>
         </div>
         <ArrowIconPagination

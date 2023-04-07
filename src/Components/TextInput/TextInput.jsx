@@ -1,41 +1,40 @@
 import React, { useEffect, useState } from "react";
 import Label from "../Label/Label";
 import style from "./TextInput.module.scss";
+import ErrorWarning from "../ErrorWarning/ErrorWarning";
 const TextInput = (props) => {
-  const { label, labelDescription, required, value, setValue, maxlength } =
-    props;
+  const {
+    label,
+    labelDescription,
+    required,
+    value,
+    setValue,
+    maxlength,
+    errorMessage,
+  } = props;
   TextInput.propTypes = {};
   const [errorWarning, setErrorWarning] = useState("");
-  const [componentValue, setComponentValue] = useState("");
-
-  useEffect(() => {
-    setComponentValue(value);
-  }, [value]);
-
   const handleValidate = (text) => {
-    if (required) {
-      if (text === "") {
-        setErrorWarning(label + " must not be empty!");
-      } else {
-        setErrorWarning("");
-      }
-    }
-    if (text.length > maxlength) {
-      error = true;
+    if (text.length === 0) {
+      setErrorWarning(errorMessage);
+      setValue(text);
+    } else if (text.length > maxlength) {
       setErrorWarning(
         "Text length must be less than " + maxlength + " characters"
       );
+    } else {
+      setErrorWarning("");
+      setValue(text);
     }
-    setValue(componentValue);
-  };
-
-  const handleOnBlur = (event) => {
-    handleValidate(event.target.value);
   };
 
   const handleOnChange = (event) => {
-    setComponentValue(event.target.value);
+    handleValidate(event.target.value);
   };
+
+  useEffect(() => {
+    setErrorWarning(errorMessage);
+  }, [errorMessage]);
 
   return (
     <div className={style.container}>
@@ -47,14 +46,11 @@ const TextInput = (props) => {
       <input
         className={style.input}
         type="text"
-        onBlur={handleOnBlur}
-        value={componentValue}
+        value={value}
         onChange={handleOnChange}
       />
       <br />
-      {errorWarning !== "" && (
-        <span className={style.warning}>{errorWarning}</span>
-      )}
+      <ErrorWarning message={errorWarning} />
     </div>
   );
 };

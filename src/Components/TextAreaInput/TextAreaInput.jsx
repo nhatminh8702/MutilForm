@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
 import Label from "../Label/Label";
 import style from "./TextAreaInput.module.scss";
+import ErrorWarning from "../ErrorWarning/ErrorWarning";
 const TextAreaInput = (props) => {
-  const { label, labelDescription, required, value, setValue, maxlength } =
-    props;
+  const {
+    label,
+    labelDescription,
+    required,
+    value,
+    setValue,
+    maxlength,
+    errorMessage,
+  } = props;
   const [textLength, setTextLength] = useState(0);
   const [errorWarning, setErrorWarning] = useState("");
-  const [componentValue, setComponentValue] = useState("");
-  useEffect(() => {
-    setComponentValue(value);
-  }, [value]);
 
   const handleOnChange = (event) => {
-    setComponentValue(event.target.value);
-    handleTextLength(event.target.value.length);
-  };
-
-  const handleOnBlur = (event) => {
     handleValidate(event.target.value);
   };
 
-  const handleTextLength = (textLength) => {
-    setTextLength(textLength);
-    if (textLength >= maxlength)
+  const handleValidate = (text) => {
+    if (text.length === 0) {
+      setValue(text);
+      setErrorWarning(errorMessage);
+      setTextLength(text.length);
+    } else if (text.length >= maxlength) {
       setErrorWarning(
         "The paragraph exceeded " + maxlength + " characters limit!"
       );
+    } else {
+      setValue(text);
+      setTextLength(text.length);
+      setErrorWarning("");
+    }
   };
 
-  const handleValidate = (text) => {
-    if (required) {
-      if (text === "") {
-        setErrorWarning("The paragraph must not leave empty");
-      }
-    }
-    setValue(text);
-  };
+  useEffect(() => {
+    setErrorWarning(errorMessage);
+  }, [errorMessage]);
 
   return (
     <div className={style.container}>
@@ -49,17 +51,14 @@ const TextAreaInput = (props) => {
         maxLength={maxlength}
         rows={20}
         onChange={handleOnChange}
-        onBlur={handleOnBlur}
-        value={componentValue}
+        value={value}
       ></textarea>
       <br />
       <span>
         {textLength}/{maxlength}
       </span>
       <br />
-      {errorWarning !== "" && (
-        <span className={style.warning}>{errorWarning}</span>
-      )}
+      <ErrorWarning message={errorWarning} />
     </div>
   );
 };

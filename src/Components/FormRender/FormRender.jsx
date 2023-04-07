@@ -9,6 +9,7 @@ import DropDownFile from "../DropDownFile/DropDownFile";
 import NumberInput from "../NumberInput/NumberInput";
 import FormTitle from "../FormTitleSelector/FormTitleSelector";
 import FromToDatePicker from "../FromToDatePicker/FromToDatePicker";
+
 const FormRender = (props) => {
   const {
     formData,
@@ -29,7 +30,8 @@ const FormRender = (props) => {
             required={item.required}
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
-            maxlength={item.maxlength}
+            maxlength={item.maxLength}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-date":
@@ -41,6 +43,7 @@ const FormRender = (props) => {
             required={item.required}
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-textarea":
@@ -52,7 +55,8 @@ const FormRender = (props) => {
             required={item.required}
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
-            maxlength={item.maxlength}
+            maxlength={item.maxLength}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-selector":
@@ -66,6 +70,7 @@ const FormRender = (props) => {
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
             selectData={item.selectData}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-searchBar":
@@ -78,6 +83,7 @@ const FormRender = (props) => {
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
             searchData={item.searchData}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-dropDownFile":
@@ -90,6 +96,7 @@ const FormRender = (props) => {
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
             maxSize={item.maxSize}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-number":
@@ -101,8 +108,9 @@ const FormRender = (props) => {
             required={item.required}
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
-            maxlength={item.maxlength}
+            maxlength={item.maxLength}
             currency={item.currency}
+            errorMessage={item.errorMessage}
           />
         );
       case "input-fromToDatePicker":
@@ -114,9 +122,10 @@ const FormRender = (props) => {
             required={item.required}
             value={item.value}
             setValue={(data) => handleOnChangeValue(item.id, data, "value")}
-            compareFormToDate={(fromDate, toDate) =>
+            compareDate={(fromDate, toDate) =>
               compareFormToDate(formData.id, fromDate, toDate)
             }
+            errorMessage={item.errorMessage}
           />
         );
     }
@@ -128,10 +137,13 @@ const FormRender = (props) => {
         {formData.formTitle !== "" && (
           <FormTitle
             value={formData.value}
-            setValue={(data) => handleOnChangeFormTitle(formData.id, data)}
+            setValue={(data) =>
+              handleOnChangeFormTitle(formData.id, "value", data)
+            }
             placeHolder={formData.formTitle}
             selectData={["MOR Software jsc", "fpt", "viettel"]}
             handleClickDelete={() => handleClickDeleteForm(formData.id)}
+            errorMessage={formData.errorMessage}
           />
         )}
         {handleRenderForm}

@@ -4,17 +4,25 @@ import style from "./SearchBar.module.scss";
 import searchIcon from "@/assets/Combined_Shape.svg";
 import xIcon from "@/assets/X.svg";
 import { removeAscent } from "@/utility/RemoveAscent";
+import ErrorWarning from "../ErrorWarning/ErrorWarning";
 const SearchBar = (props) => {
-  const { label, labelDescription, required, value, setValue, searchData } =
-    props;
+  const {
+    label,
+    labelDescription,
+    required,
+    value,
+    setValue,
+    searchData,
+    errorMessage,
+  } = props;
   const [selectedList, setSelectedList] = useState(value);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [dropDown, setDropDown] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [errorWarning, setErrorWarning] = useState("");
   const searchBarRef = useRef(null);
   const dropDownRef = useRef(null);
 
-  
   useEffect(() => {
     document.addEventListener("click", toggleDropDown);
     if (searchValue === "") {
@@ -46,6 +54,7 @@ const SearchBar = (props) => {
   };
 
   const handleAddSelected = (selectedItem) => {
+    setErrorWarning("");
     const index = selectedList.findIndex((city) => city.id === selectedItem.id);
     if (index === -1) {
       var clone = JSON.parse(JSON.stringify(selectedList));
@@ -56,9 +65,15 @@ const SearchBar = (props) => {
   };
 
   const handleDeleteSelected = (selectedItem) => {
+    if (selectedList.filter((item) => item !== selectedItem).length === 0)
+      setErrorWarning(errorMessage);
     setSelectedList(selectedList.filter((item) => item !== selectedItem));
     setValue(selectedList.filter((item) => item !== selectedItem));
   };
+
+  useEffect(() => {
+    setErrorWarning(errorMessage);
+  }, [errorMessage]);
 
   return (
     <div className={style.container}>
@@ -76,12 +91,7 @@ const SearchBar = (props) => {
             />
           </div>
         ))}
-        <input
-          type="text"
-          // onKeyDown={() => onSelectedItem(selectedList)}
-          value={searchValue}
-          onChange={handleSearch}
-        />
+        <input type="text" value={searchValue} onChange={handleSearch} />
       </div>
       {isDropDownOpen && (
         <div id=" " className={style.searchList} ref={dropDownRef}>
@@ -100,6 +110,7 @@ const SearchBar = (props) => {
           ))}
         </div>
       )}
+      <ErrorWarning message={errorWarning} />
     </div>
   );
 };

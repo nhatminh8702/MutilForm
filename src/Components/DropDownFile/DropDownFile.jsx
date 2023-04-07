@@ -10,21 +10,33 @@ const DropDownFile = ({
   value,
   setValue,
   maxSize,
+  errorMessage,
 }) => {
   const [fileList, setFileList] = useState([]);
+  const [errorWarning, serErrorWarning] = useState("");
+
+  const onChange = (file) => {
+    const clone = [...fileList, ...file];
+    serErrorWarning("");
+    setFileList(clone);
+    setValue(clone);
+  };
+  
+  const onDeleteFile = (file) => {
+    setValue(fileList.filter((item) => item.name !== file.name));
+    if (fileList.filter((item) => item.name !== file.name).length === 0) {
+      serErrorWarning(errorMessage);
+    }
+  };
 
   useEffect(() => {
     setFileList(value);
   }, [value]);
 
-  const onChange = (file) => {
-    const clone = [...fileList, ...file];
-    setFileList(clone);
-    setValue(clone);
-  };
-  const onDeleteFile = (file) => {
-    setValue(fileList.filter((item) => item.name !== file.name));
-  };
+  useEffect(() => {
+    serErrorWarning(errorMessage);
+  }, [errorMessage]);
+
   return (
     <div className={style.container}>
       <Label
@@ -34,6 +46,9 @@ const DropDownFile = ({
       />
       <DragDropZone onChange={onChange} maxSize={maxSize} />
       <ListFiles fileList={fileList} onDelete={onDeleteFile} />
+      {errorWarning !== "" && (
+        <span className={style.errorMessage}>{errorWarning}</span>
+      )}
     </div>
   );
 };

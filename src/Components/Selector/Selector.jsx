@@ -3,13 +3,41 @@ import style from "./Selector.module.scss";
 import dropDownIcon from "@/assets/CaretDown.svg";
 import Label from "../Label/Label";
 import xIcon from "@/assets/X.svg";
+import ErrorWarning from "../ErrorWarning/ErrorWarning";
 const Selector = (props) => {
-  const { label, required, placeHolder, value, setValue, selectData } = props;
+  const {
+    label,
+    required,
+    placeHolder,
+    value,
+    setValue,
+    selectData,
+    errorMessage,
+  } = props;
   const [selectValue, setSelectValue] = useState("Select " + placeHolder);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isFocus, setIsFocus] = useState(false);
+  const [errorWarning, setErrorWarning] = useState("");
   const selectorRef = useRef(null);
+
+  const toggleDropDown = (event) => {
+    if (event.target && selectorRef.current.contains(event.target)) {
+      setIsDropDownOpen((current) => !current);
+    } else {
+      setIsDropDownOpen(false);
+    }
+  };
+
+  const handleOnClickDelete = () => {
+    setSelectValue("Select " + placeHolder);
+    setValue("");
+    if (errorMessage !== "") setErrorWarning(errorMessage);
+  };
+
+  const handleSelectItem = (item) => {
+    setErrorWarning("");
+    setSelectValue(item);
+    setValue(item);
+  };
 
   useEffect(() => {
     if (value !== "") {
@@ -22,43 +50,14 @@ const Selector = (props) => {
     return () => document.removeEventListener("click", toggleDropDown);
   }, []);
 
-  const toggleDropDown = (event) => {
-    if (event.target && selectorRef.current.contains(event.target)) {
-      setIsFocus(true);
-      setIsDropDownOpen((current) => !current);
-    } else {
-      setIsDropDownOpen(false);
-    }
-  };
-
-  const handleOnClickDelete = () => {
-    setSelectValue("Select " + placeHolder);
-    setValue("");
-  };
-
-  const handleSelectItem = (item) => {
-    setErrorMessage("");
-    setSelectValue(item);
-    setValue(item);
-  };
-
-  const handleOnBlur = () => {
-    console.log("1");
-    if (required) {
-      if (item === "Select " + placeHolder) {
-        setErrorMessage("This selection must not leave blank");
-      }
-    }
-  };
+  useEffect(() => {
+    setErrorWarning(errorMessage);
+  }, [errorMessage]);
 
   return (
     <div className={style.container}>
       <Label label={label} required={required} />
-      <div
-        className={style.selectContainer}
-        ref={selectorRef}
-        onBlur={handleOnBlur}
-      >
+      <div className={style.selectContainer} ref={selectorRef}>
         <div className={style.display}>
           <div
             className={
@@ -92,9 +91,7 @@ const Selector = (props) => {
           </div>
         )}
       </div>
-      {errorMessage !== "" && (
-        <div className={style.warning}>{errorMessage}</div>
-      )}
+      <ErrorWarning message={errorWarning}/>
     </div>
   );
 };

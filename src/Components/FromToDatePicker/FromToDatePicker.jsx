@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import style from "./FormToDatePicker.module.scss";
 import DatePicker from "../DatePicker/DatePicker";
 import Label from "../Label/Label";
+import ErrorWarning from "../ErrorWarning/ErrorWarning";
 const FromToDatePicker = ({
   label,
   labelDescription,
   required,
   value,
   setValue,
-  compareFormToDate,
+  compareDate,
+  errorMessage,
 }) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorWarning, setErrorWarning] = useState("");
 
   useEffect(() => {
     const dateArray = value.split(" ");
@@ -29,21 +31,23 @@ const FromToDatePicker = ({
       const date2 = new Date(toDate);
       const currentDate = new Date();
       if (date1 >= date2) {
-        setErrorMessage("date invalid!");
+        setErrorWarning("date invalid!");
         error = true;
       }
       if (date1 > currentDate) {
-        setErrorMessage("date invalid!");
+        setErrorWarning("date invalid!");
         error = true;
       }
-      console.log(compareFormToDate(fromDate, toDate));
-      if (compareFormToDate(fromDate, toDate)) {
-        console.log(2);
-        setErrorMessage("date invalid!");
+      if (compareDate(fromDate, toDate)) {
+        setErrorWarning("date invalid!");
         error = true;
+      }
+      if (fromDate + " " + toDate === "") {
+        error = true;
+        setErrorWarning(errorMessage);
       }
       if (!error) {
-        setErrorMessage("");
+        setErrorWarning("");
         setValue(fromDate + " " + toDate);
       }
     }
@@ -60,7 +64,7 @@ const FromToDatePicker = ({
         <hr />
         <DatePicker value={toDate} setValue={setToDate} />
       </div>
-      {errorMessage !== "" && <span className={style.errorMessage}>{errorMessage}</span>}
+      <ErrorWarning message={errorWarning} />
     </div>
   );
 };
