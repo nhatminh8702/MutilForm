@@ -205,8 +205,7 @@ const MultiFormViews = () => {
   }, [formData]);
 
   useEffect(() => {
-    const element = document.querySelector("div[class^='_errorMessage']");
-    console.log(element);
+    const element = document.querySelector("div[class^='_errorMessage']");  
     if (element !== null) {
       window.scrollTo({ top: element.offsetTop - 100, behavior: "smooth" });
     }

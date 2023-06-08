@@ -23,24 +23,11 @@ const SearchBar = (props) => {
   const searchBarRef = useRef(null);
   const dropDownRef = useRef(null);
 
-  useEffect(() => {
-    document.addEventListener("click", toggleDropDown);
-    if (searchValue === "") {
-      setDropDown(searchData);
-    }
-    return () => document.removeEventListener("click", toggleDropDown);
-  }, []);
-
-  const toggleDropDown = (event) => {
-    if (event !== null) {
-      setIsDropDownOpen(
-        event.target && searchBarRef.current.contains(event.target)
-      );
-      try {
-        if (dropDownRef.current.contains(event.target)) {
-          setIsDropDownOpen(true);
-        }
-      } catch (error) {}
+  const handleToggleDropDown = (event) => {
+    if (event.target && selectorRef.current.contains(event.target)) {
+      setToggleDropDown((current) => !current);
+    } else {
+      setToggleDropDown(false);
     }
   };
 
@@ -64,7 +51,9 @@ const SearchBar = (props) => {
     }
   };
 
-  const handleDeleteSelected = (selectedItem) => {
+  const handleDeleteSelected = (event, selectedItem) => {
+    event.preventdefault();
+    console.log("asdasd")
     if (selectedList.filter((item) => item !== selectedItem).length === 0)
       setErrorWarning(errorMessage);
     setSelectedList(selectedList.filter((item) => item !== selectedItem));
@@ -74,6 +63,11 @@ const SearchBar = (props) => {
   useEffect(() => {
     setErrorWarning(errorMessage);
   }, [errorMessage]);
+
+  useEffect(() => {
+    document.addEventListener("click", handleToggleDropDown);
+    return () => document.removeEventListener("click", handleToggleDropDown);
+  }, []);
 
   return (
     <div className={style.container}>
@@ -86,7 +80,7 @@ const SearchBar = (props) => {
             <img
               className={style.deleteIcon}
               src={xIcon}
-              onClick={() => handleDeleteSelected(item)}
+              onClick={(event) => handleDeleteSelected(event, item)}
               alt=""
             />
           </div>
